@@ -4,7 +4,7 @@
  * Copyright (c) 2013 Robin Burel
  * Licensed under the MIT and GPL licenses.
  *
- * Date: 20013-07-06 17:34:21 -0500 (Thu, 19 Feb 2009)
+ * Date: 20013-07-06
  */
 
 function TLVDecoder() {
