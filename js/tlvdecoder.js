@@ -60,6 +60,7 @@ function TLVDecoder() {
 		} else return parseInt(len, 16) * 2
 	};
 	this.parseTLV = function(sequence) {
+		this.tlv = [];
 		sequence = this.removeWhiteSpaces(sequence);
 		while (sequence !== "") {
 			obj = this.getTLV(sequence);
