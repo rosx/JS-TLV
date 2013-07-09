@@ -49,9 +49,9 @@ function TLVDecoder() {
 	};
 	this.getLen = function(sequence) {
 		len = sequence[0] + sequence[1];
+		console.log("len is "+len);
 		lenBytes = 1;
-		if ((parseInt(len, 16) & CONST_LEN) == CONST_LEN) lenBytes =
-				parseInt(len[1], 16) * 2;
+		if ((parseInt(len, 16) & CONST_LEN) == CONST_LEN) lenBytes = parseInt(len[1], 16) * 2;
 		if (lenBytes > 1) for (var i = 2; i <= lenBytes; i += 2) len += sequence[i] + sequence[i + 1];
 		return len
 	};
@@ -62,6 +62,7 @@ function TLVDecoder() {
 		} else return parseInt(len, 16) * 2
 	};
 	this.parseTLV = function(sequence) {
+		sequence = this.removeWhiteSpaces(sequence);
 		while (sequence !== "") {
 			obj = this.getTLV(sequence);
 			sequence = sequence.substring(obj.getTotalSequence());
@@ -73,12 +74,21 @@ function TLVDecoder() {
 		tmp = new TLVObject(null,
 			null, null);
 		tag = this.getTag(sequence);
+		console.log("TAG : "+tag);
+		console.log("TAG length : "+tag.length);
+		console.warn(sequence);
 		sequence = sequence.substring(tag.length);
+		console.log("\n");
+		console.warn(sequence);
 		len = this.getLen(sequence);
 		sequence = sequence.substring(len.length);
 		tmp.len = len;
 		tmp.tag = tag;
 		tmp.val = sequence.substring(0, this.getTotalLen(len));
 		return tmp
+	};
+
+	this.removeWhiteSpaces = function(str){
+		return str.replace(/ /g, '');
 	}
 }
