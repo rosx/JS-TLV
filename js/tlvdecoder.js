@@ -2,7 +2,7 @@
  * TLV Decoder JavaScript Library v0.1
  *
  * Copyright (c) 2013 Robin Burel
- * Licensed under the MIT and GPL licenses.
+ * Licensed under the MIT
  *
  * Date: 20013-07-06
  */
