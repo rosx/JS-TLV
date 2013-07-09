@@ -22,7 +22,6 @@ function TLVDecoder() {
 			return (this.tag + this.len + this.val).length
 		};
 		this.isConstructed = function() {
-			console.log();
 			return (parseInt(this.tag.substring(0, 2), 16) & CONST_PC) == CONST_PC
 		};
 		this.computeChildren = function() {
@@ -49,7 +48,6 @@ function TLVDecoder() {
 	};
 	this.getLen = function(sequence) {
 		len = sequence[0] + sequence[1];
-		console.log("len is "+len);
 		lenBytes = 1;
 		if ((parseInt(len, 16) & CONST_LEN) == CONST_LEN) lenBytes = parseInt(len[1], 16) * 2;
 		if (lenBytes > 1) for (var i = 2; i <= lenBytes; i += 2) len += sequence[i] + sequence[i + 1];
@@ -74,12 +72,7 @@ function TLVDecoder() {
 		tmp = new TLVObject(null,
 			null, null);
 		tag = this.getTag(sequence);
-		console.log("TAG : "+tag);
-		console.log("TAG length : "+tag.length);
-		console.warn(sequence);
 		sequence = sequence.substring(tag.length);
-		console.log("\n");
-		console.warn(sequence);
 		len = this.getLen(sequence);
 		sequence = sequence.substring(len.length);
 		tmp.len = len;
