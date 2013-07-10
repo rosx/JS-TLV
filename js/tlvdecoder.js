@@ -81,8 +81,26 @@ function TLVDecoder() {
 		tmp.val = sequence.substring(0, this.getTotalLen(len));
 		return tmp
 	};
-
-	this.removeWhiteSpaces = function(str){
+	this.removeWhiteSpaces = function(str) {
 		return str.replace(/ /g, '');
-	}
+	};
+	this.encode = function(tag, val) {
+		tag = this.removeWhiteSpaces(tag);
+		val = this.removeWhiteSpaces(val);
+		tmp = new TLVObject(tag, null, val);
+		lengthVal = (val.length / 2).toString(16);
+		if (lengthVal.length % 2 != 0) {
+			lengthVal = "0" + lengthVal;
+		}
+		if (parseInt(lengthVal, 16) > 0x80) {
+			len = "8" + (lengthVal.length / 2).toString(16);
+			len += lengthVal;
+		} else {
+			len = lengthVal;
+		}
+
+		tmp.len = len;
+
+		return tmp;
+	};
 }
