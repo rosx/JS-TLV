@@ -27,7 +27,8 @@ function TLVDecoder() {
 		this.computeChildren = function() {
 			if (this.isConstructed()) {
 				this.val = this.parse(this.val);
-				if (Object.prototype.toString.call(this.val) === "[object Array]") for (var i =
+				if (Object.prototype.toString.call(this.val) === "[object Array]")
+					for (var i =
 						0; i < this.val.length; i++) this.val[i].computeChildren()
 			}
 		};
@@ -50,7 +51,8 @@ function TLVDecoder() {
 		len = sequence[0] + sequence[1];
 		lenBytes = 1;
 		if ((parseInt(len, 16) & CONST_LEN) == CONST_LEN) lenBytes = parseInt(len[1], 16) * 2;
-		if (lenBytes > 1) for (var i = 2; i <= lenBytes; i += 2) len += sequence[i] + sequence[i + 1];
+		if (lenBytes > 1)
+			for (var i = 2; i <= lenBytes; i += 2) len += sequence[i] + sequence[i + 1];
 		return len
 	};
 	this.getTotalLen = function(len) {
@@ -102,5 +104,24 @@ function TLVDecoder() {
 		tmp.len = len;
 
 		return tmp;
+	};
+
+	this.encodeDGI = function(tag, val) {
+		tag = this.removeWhiteSpaces(tag);
+		val = this.removeWhiteSpaces(val);
+		tmp = new TLVObject(tag, null, val);
+		lengthHexa = (val.length / 2).toString(16);
+		if (lengthHexa.length % 2 !== 0) {
+			lengthHexa = "0" + lengthHexa;
+		}
+		len = "";
+		if (parseInt(lengthHexa, 16) > 0xFE) {
+			len += "FF";
+			len += lengthHexa;
+		} else {
+			len = lengthHexa;
+		}
+		tmp.len = len;
+		return tmp
 	};
 }
