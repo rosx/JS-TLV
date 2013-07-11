@@ -15,3 +15,8 @@ To compute tag's length :
 
 
 decoder.encode(tag,val) -> returns TLV object
+
+
+To encode DGI format :
+
+decoder.encodeDGI(tag,val) -> returns TLV object in EMV specifiations
